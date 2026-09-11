@@ -1,176 +1,683 @@
-<!-- SPE Cookie Overlay · Diseño comercial sin JS -->
-<div id="speCookieOverlay"
-     style="
-       position:fixed;
-       inset:0;
-       width:100vw;
-       height:100vh;
-       padding:20px;
-       box-sizing:border-box;
-       background:rgba(0,28,55,0.68);
-       backdrop-filter:blur(6px);
-       -webkit-backdrop-filter:blur(6px);
-       display:flex;
-       justify-content:center;
-       align-items:center;
-       z-index:2147483647;
-     ">
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoExpress — Repuestos y Accesorios para Vehículos en Chile</title>
+<meta name="description" content="AutoExpress: repuestos, piezas y accesorios para vehículos en Chile. Catálogo por categorías, cotización directa y atención en todo el país. Sin ventas de motores completos.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%231C1E22%22/><path d=%22M20 55 L35 40 L45 40 L45 30 L55 30 L55 40 L65 40 L80 55 L80 70 L20 70 Z%22 fill=%22%23F2B705%22/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --graphite:#1C1E22;
+    --asphalt:#24262B;
+    --steel:#565F68;
+    --steel-light:#9AA3AB;
+    --paper:#EEEAE1;
+    --paper-alt:#E4DFD3;
+    --hazard:#F2B705;
+    --signal:#C1272D;
+    --white:#FAF8F4;
+    --radius:2px;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--graphite);
+    font-family:'Work Sans',sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.02em;
+    margin:0 0 .5em;
+    color:var(--graphite);
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--signal);
+    display:flex;align-items:center;gap:8px;
+    margin-bottom:10px;
+  }
+  .eyebrow::before{content:"";width:18px;height:2px;background:var(--signal);display:inline-block;}
+  .hazard-bar{
+    height:10px;
+    background-image:repeating-linear-gradient(45deg,var(--hazard) 0 14px,var(--graphite) 14px 28px);
+  }
+  .hazard-bar.thin{height:6px;}
+  button{font-family:inherit;cursor:pointer;}
+  :focus-visible{outline:3px solid var(--hazard);outline-offset:2px;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important;transition-duration:0.001ms !important;}
+  }
 
-  <div style="
-        position:relative;
-        overflow:hidden;
-        width:100%;
-        max-width:880px;
-        background:#cfb023;
-        color:#212529;
-        border:1px solid rgba(33,37,41,0.12);
-        border-radius:24px;
-        box-shadow:
-          0 30px 80px rgba(0,28,55,0.28),
-          0 8px 24px rgba(0,28,55,0.12);
-        font-family:'Montserrat','Avenir Next','Segoe UI',Arial,sans-serif;
-      ">
+  /* ---------- Header ---------- */
+  header.site-header{
+    position:sticky;top:0;z-index:50;
+    background:var(--graphite);
+    border-bottom:3px solid var(--hazard);
+  }
+  .header-row{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 24px;max-width:var(--maxw);margin:0 auto;
+  }
+  .logo{display:flex;align-items:center;gap:10px;color:var(--white);text-decoration:none;}
+  .logo-mark{width:34px;height:34px;flex:0 0 auto;}
+  .logo-text{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;}
+  .logo-text span{color:var(--hazard);}
+  nav.main-nav{display:flex;align-items:center;gap:28px;}
+  nav.main-nav a{
+    color:var(--white);text-decoration:none;font-size:14px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.06em;padding:6px 2px;border-bottom:2px solid transparent;
+  }
+  nav.main-nav a:hover{border-bottom-color:var(--hazard);}
+  .header-cta{
+    display:flex;align-items:center;gap:14px;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:11px 20px;border-radius:var(--radius);border:2px solid transparent;
+    font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.05em;
+    text-decoration:none;transition:transform .15s ease, background .15s ease;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--hazard);color:var(--graphite);}
+  .btn-primary:hover{background:#ffc72c;}
+  .btn-outline{background:transparent;border-color:var(--steel-light);color:var(--white);}
+  .btn-outline:hover{border-color:var(--white);}
+  .btn-signal{background:var(--signal);color:var(--white);}
+  .btn-signal:hover{background:#a91f25;}
+  .nav-toggle{display:none;background:none;border:2px solid var(--white);color:var(--white);padding:8px 10px;border-radius:var(--radius);}
 
-    <!-- Franja corporativa -->
-    <div style="
-          width:100%;
-          height:7px;
-          background:#212529;
-        ">
-    </div>
+  /* ---------- Hero ---------- */
+  .hero{background:var(--graphite);color:var(--white);position:relative;overflow:hidden;}
+  .hero-inner{
+    max-width:var(--maxw);margin:0 auto;padding:64px 24px 56px;
+    display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:end;
+  }
+  .hero h1{
+    color:var(--white);font-size:clamp(34px,5vw,58px);line-height:1.02;margin-bottom:18px;
+  }
+  .hero h1 em{font-style:normal;color:var(--hazard);}
+  .hero p.lead{color:var(--steel-light);font-size:18px;max-width:46ch;margin-bottom:28px;}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+  .plate{
+    background:var(--white);color:var(--graphite);border-radius:var(--radius);
+    border:3px solid var(--graphite);
+    box-shadow:8px 8px 0 var(--hazard);
+    padding:22px 24px;
+  }
+  .plate-top{display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed var(--steel-light);padding-bottom:10px;margin-bottom:14px;}
+  .plate-top .mono{font-size:12px;letter-spacing:.08em;color:var(--steel);}
+  .plate-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 20px;}
+  .plate-stat b{display:block;font-family:'Oswald',sans-serif;font-size:30px;line-height:1;}
+  .plate-stat span{font-size:12px;color:var(--steel);text-transform:uppercase;letter-spacing:.06em;}
 
-    <div style="
-          padding:30px 32px 28px;
-          display:flex;
-          align-items:center;
-          justify-content:space-between;
-          gap:28px;
-          flex-wrap:wrap;
-        ">
+  /* ---------- Sections generic ---------- */
+  section{padding:72px 0;}
+  .section-head{max-width:60ch;margin-bottom:44px;}
+  .section-head h2{font-size:clamp(26px,3.4vw,38px);}
+  .section-head p{color:var(--steel);font-size:16.5px;}
+  .bg-dark{background:var(--graphite);color:var(--white);}
+  .bg-dark h2,.bg-dark h3,.bg-dark h4{color:var(--white);}
+  .bg-alt{background:var(--paper-alt);}
 
-      <!-- Contenido -->
-      <div style="
-            display:flex;
-            align-items:flex-start;
-            gap:18px;
-            flex:1 1 520px;
-            min-width:0;
-          ">
+  /* ---------- Catalog ---------- */
+  .catalog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .part-card{
+    background:var(--white);border:1px solid #D9D3C4;border-radius:var(--radius);
+    padding:22px 22px 24px;position:relative;transition:border-color .15s ease, transform .15s ease;
+  }
+  .part-card:hover{border-color:var(--signal);transform:translateY(-3px);}
+  .part-card .code{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--white);background:var(--graphite);
+    display:inline-block;padding:3px 8px;border-radius:2px;margin-bottom:14px;letter-spacing:.05em;
+  }
+  .part-card h3{font-size:19px;margin-bottom:8px;}
+  .part-card p{color:var(--steel);font-size:14.5px;margin-bottom:12px;}
+  .part-card ul{margin:0;padding-left:18px;color:var(--steel);font-size:13.5px;}
+  .part-card li{margin-bottom:3px;}
+  .catalog-note{
+    margin-top:32px;padding:16px 20px;background:var(--paper-alt);border-left:4px solid var(--signal);
+    font-size:14.5px;color:var(--asphalt);
+  }
 
-        <!-- Icono -->
-        <div style="
-              width:56px;
-              height:56px;
-              min-width:56px;
-              display:flex;
-              align-items:center;
-              justify-content:center;
-              background:#212529;
-              border:1px solid #212529;
-              border-radius:18px;
-              font-size:27px;
-              box-shadow:0 8px 20px rgba(33,37,41,0.18);
-            ">
-          🍪
-        </div>
+  /* ---------- About ---------- */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+  .about-grid p{margin-bottom:16px;color:#3a3d42;}
+  .value-list{list-style:none;margin:24px 0 0;padding:0;display:grid;gap:14px;}
+  .value-list li{display:flex;gap:12px;align-items:flex-start;font-size:15px;}
+  .value-list .num{font-family:'IBM Plex Mono',monospace;color:var(--signal);font-weight:600;flex:0 0 auto;}
+  .stat-plate{background:var(--graphite);color:var(--white);border-radius:var(--radius);padding:28px;}
+  .stat-plate .row{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .stat-plate .row + .row{margin-top:24px;padding-top:24px;border-top:1px dashed var(--steel);}
+  .stat-plate b{display:block;font-family:'Oswald',sans-serif;font-size:34px;color:var(--hazard);}
+  .stat-plate span{font-size:12px;color:var(--steel-light);text-transform:uppercase;letter-spacing:.06em;}
 
-        <div style="min-width:0;">
+  /* ---------- Contact ---------- */
+  .contact-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:40px;}
+  .info-card{background:var(--white);border:1px solid #D9D3C4;border-radius:var(--radius);padding:28px;}
+  .info-card h3{font-size:18px;margin-bottom:18px;}
+  .info-row{display:flex;gap:12px;margin-bottom:16px;font-size:14.5px;}
+  .info-row .k{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--signal);text-transform:uppercase;letter-spacing:.06em;flex:0 0 92px;padding-top:2px;}
+  .info-row .v{color:var(--asphalt);}
+  .hours-table{width:100%;border-collapse:collapse;margin-top:6px;font-size:14px;}
+  .hours-table td{padding:4px 0;border-bottom:1px dashed #D9D3C4;color:var(--asphalt);}
+  .hours-table td:last-child{text-align:right;font-family:'IBM Plex Mono',monospace;font-size:13px;}
 
-          <div style="
-                margin-bottom:7px;
-                color:#212529;
-                font-size:11px;
-                line-height:1.3;
-                font-weight:800;
-                letter-spacing:1.4px;
-                text-transform:uppercase;
-              ">
-            Privacidad y navegación
-          </div>
+  form.contact-form{background:var(--white);border:1px solid #D9D3C4;border-radius:var(--radius);padding:28px;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .form-field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
+  .form-field.full{grid-column:1/-1;}
+  label{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--steel);font-weight:600;}
+  input,select,textarea{
+    font-family:'Work Sans',sans-serif;font-size:15px;padding:11px 12px;
+    border:1px solid #C9C2B0;border-radius:var(--radius);background:var(--paper);color:var(--graphite);
+  }
+  input:focus,select:focus,textarea:focus{border-color:var(--signal);}
+  textarea{resize:vertical;min-height:100px;}
+  .consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--steel);margin:6px 0 20px;}
+  .consent input{width:16px;height:16px;margin-top:2px;flex:0 0 auto;}
+  .form-note{font-size:12.5px;color:var(--steel-light);margin-top:10px;}
 
-          <div style="
-                margin-bottom:10px;
-                color:#212529;
-                font-size:clamp(21px,3vw,27px);
-                line-height:1.18;
-                font-weight:800;
-                letter-spacing:-0.6px;
-              ">
-            Este sitio utiliza cookies
-          </div>
+  /* ---------- Policies ---------- */
+  .policy-tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px;}
+  .policy-tab{
+    background:transparent;border:1px solid var(--steel-light);color:var(--asphalt);
+    padding:9px 16px;border-radius:var(--radius);font-size:13px;text-transform:uppercase;
+    letter-spacing:.05em;font-weight:600;
+  }
+  .bg-dark .policy-tab{color:var(--white);}
+  .policy-tab[aria-selected="true"]{background:var(--hazard);border-color:var(--hazard);color:var(--graphite);}
+  .policy-panel{display:none;background:var(--asphalt);border-radius:var(--radius);padding:32px;max-width:78ch;}
+  .policy-panel.active{display:block;}
+  .policy-panel h3{color:var(--hazard);font-size:19px;margin-top:24px;}
+  .policy-panel h3:first-child{margin-top:0;}
+  .policy-panel p,.policy-panel li{color:#D7D2C6;font-size:14.5px;}
+  .policy-panel ul{padding-left:20px;}
+  .placeholder{color:var(--hazard);font-family:'IBM Plex Mono',monospace;font-size:.92em;}
 
-          <div style="
-                max-width:620px;
-                color:#212529;
-                font-size:15px;
-                line-height:1.7;
-                font-weight:400;
-              ">
-            Utilizamos cookies propias y de terceros para garantizar el
-            funcionamiento del sitio, analizar el tráfico y mejorar tu experiencia.
-            Puedes aceptar todas las cookies, rechazar las opcionales o configurar
-            tus preferencias en cualquier momento. Para más información, consulta
-            nuestra política de cookies.
-          </div>
+  /* ---------- Footer ---------- */
+  footer{background:var(--graphite);color:var(--steel-light);padding-top:56px;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px;padding-bottom:40px;}
+  .footer-grid h4{color:var(--white);font-size:14px;margin-bottom:16px;}
+  .footer-grid ul{list-style:none;margin:0;padding:0;}
+  .footer-grid li{margin-bottom:10px;font-size:14px;}
+  .footer-grid a{text-decoration:none;color:var(--steel-light);}
+  .footer-grid a:hover{color:var(--hazard);}
+  .footer-logo{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .footer-logo .logo-text{color:var(--white);font-size:19px;}
+  footer .legal-blurb{font-size:13px;line-height:1.6;max-width:42ch;}
+  .footer-bottom{
+    border-top:1px solid var(--asphalt);padding:20px 0;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+    font-size:12.5px;
+  }
 
-        </div>
-      </div>
+  /* ---------- Responsive ---------- */
+  @media (max-width:920px){
+    nav.main-nav{
+      position:fixed;inset:64px 0 0 0;background:var(--graphite);flex-direction:column;
+      padding:24px;gap:0;display:none;overflow-y:auto;
+    }
+    nav.main-nav.open{display:flex;}
+    nav.main-nav a{padding:14px 0;border-bottom:1px solid var(--asphalt);width:100%;}
+    .header-cta .btn-outline{display:none;}
+    .nav-toggle{display:block;}
+    .hero-inner{grid-template-columns:1fr;}
+    .catalog-grid{grid-template-columns:repeat(2,1fr);}
+    .about-grid{grid-template-columns:1fr;}
+    .contact-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:600px){
+    .catalog-grid{grid-template-columns:1fr;}
+    .form-grid{grid-template-columns:1fr;}
+    .plate-grid{grid-template-columns:1fr 1fr;}
+    .footer-grid{grid-template-columns:1fr;}
+    .plate{box-shadow:5px 5px 0 var(--hazard);}
+  }
+</style>
+</head>
+<body>
 
-      <!-- Acción -->
-      <div style="
-            flex:0 1 190px;
-            width:100%;
-            max-width:220px;
-          ">
-
-        <a href="https://autofin-111-zip--emmilyharpersds.replit.app/"
-           style="
-             display:flex;
-             align-items:center;
-             justify-content:center;
-             gap:9px;
-             width:100%;
-             min-height:50px;
-             box-sizing:border-box;
-             padding:14px 24px;
-             background:#212529;
-             color:#ffffff;
-             border:1px solid #212529;
-             border-radius:12px;
-             box-shadow:0 10px 24px rgba(33,37,41,0.26);
-             font-size:14px;
-             line-height:1;
-             font-weight:800;
-             letter-spacing:0.2px;
-             text-align:center;
-             text-decoration:none;
-             cursor:pointer;
-           ">
-          Aceptar cookies
-
-          <span aria-hidden="true"
-                style="
-                  font-size:18px;
-                  line-height:1;
-                  font-weight:400;
-                ">
-            →
-          </span>
-        </a>
-
-        <div style="
-              margin-top:9px;
-              color:#212529;
-              font-size:10px;
-              line-height:1.4;
-              text-align:center;
-            ">
-          Navegación segura y personalizada
-        </div>
-
-      </div>
-
+<header class="site-header">
+  <div class="header-row">
+    <a href="#inicio" class="logo">
+      <svg class="logo-mark" viewBox="0 0 100 100" aria-hidden="true">
+        <rect width="100" height="100" fill="none"/>
+        <path d="M18 58 L34 42 L44 42 L44 30 L56 30 L56 42 L66 42 L82 58 L82 74 L18 74 Z" fill="#F2B705"/>
+        <circle cx="34" cy="74" r="8" fill="#1C1E22" stroke="#F2B705" stroke-width="3"/>
+        <circle cx="66" cy="74" r="8" fill="#1C1E22" stroke="#F2B705" stroke-width="3"/>
+      </svg>
+      <span class="logo-text">Auto<span>Express</span></span>
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="#catalogo">Catálogo</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#contacto">Contacto</a>
+      <a href="#politicas">Políticas</a>
+    </nav>
+    <div class="header-cta">
+      <a href="tel:+56987654321" class="btn btn-outline">📞 <span class="placeholder-inline">+56 9 8765 4321</span></a>
+      <a href="#contacto" class="btn btn-primary">Cotizar ahora</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">☰</button>
     </div>
   </div>
-</div>
-<!-- /SPE Cookie Overlay -->
+</header>
+
+<main id="inicio">
+
+  <!-- HERO -->
+  <section class="hero" style="padding:0;">
+    <div class="hazard-bar"></div>
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Repuestos · Piezas · Accesorios — Chile</p>
+        <h1>El repuesto correcto, <em>sin vueltas.</em></h1>
+        <p class="lead">Catálogo por categorías, códigos claros y atención directa para encontrar la pieza exacta de tu vehículo. Cotiza por WhatsApp, teléfono o formulario — sin pagos en línea, tú confirmas antes de comprar.</p>
+        <div class="hero-actions">
+          <a href="#catalogo" class="btn btn-primary">Ver catálogo</a>
+          <a href="https://wa.me/56900000000" class="btn btn-signal" target="_blank" rel="noopener">WhatsApp directo</a>
+        </div>
+      </div>
+      <div class="plate">
+        <div class="plate-top">
+          <span class="mono">FICHA · AUTOEXPRESS</span>
+          <span class="mono">CL</span>
+        </div>
+        <div class="plate-grid">
+          <div class="plate-stat"><b>9</b><span>Categorías activas</span></div>
+          <div class="plate-stat"><b>+40</b><span>Marcas cubiertas</span></div>
+          <div class="plate-stat"><b>16</b><span>Regiones con despacho</span></div>
+          <div class="plate-stat"><b>24h</b><span>Respuesta cotización</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATALOGO -->
+  <section id="catalogo">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Catálogo</p>
+        <h2>Repuestos y accesorios por categoría</h2>
+        <p>Trabajamos piezas, componentes y accesorios para automóviles, camionetas y SUV. No comercializamos motores completos ni reconstrucción de motores.</p>
+      </div>
+      <div class="catalog-grid">
+
+        <article class="part-card">
+          <span class="code">REF. FRE‑01</span>
+          <h3>Frenos</h3>
+          <p>Sistema de frenado completo para mantenimiento preventivo y correctivo.</p>
+          <ul><li>Pastillas y balatas</li><li>Discos y tambores</li><li>Cañerías y bombas</li><li>Líquido de freno</li></ul>
+        </article>
+
+        <article class="part-card">
+          <span class="code">REF. SUS‑02</span>
+          <h3>Suspensión y dirección</h3>
+          <p>Componentes para estabilidad, manejo y confort de marcha.</p>
+          <ul><li>Amortiguadores</li><li>Rótulas y terminales</li><li>Bujes y pivotes</li><li>Barras estabilizadoras</li></ul>
+        </article>
+
+        <article class="part-card">
+          <span class="code">REF. FIL‑03</span>
+          <h3>Filtros</h3>
+          <p>Filtración para motor, combustible y habitáculo.</p>
+          <ul><li>Filtro de aire</li><li>Filtro de aceite</li><li>Filtro de combustible</li><li>Filtro de habitáculo</li></ul>
+        </article>
+
+        <article class="part-card">
+          <span class="code">REF. TRA‑04</span>
+          <h3>Correas y tensores</h3>
+          <p>Transmisión de distribución y accesorios del motor.</p>
+          <ul><li>Correa de distribución</li><li>Kit de tensores</li><li>Correa multicanal</li><li>Poleas</li></ul>
+        </article>
+
+        <article class="part-card">
+          <span class="code">REF. ELE‑05</span>
+          <h3>Sistema eléctrico</h3>
+          <p>Componentes eléctricos y electrónicos para arranque y sensores.</p>
+          <ul><li>Baterías</li><li>Alternadores</li><li>Motores de partida</li><li>Sensores y sondas</li></ul>
+        </article>
+
+        <article class="part-card">
+          <span class="code">REF. REF‑06</span>
+          <h3>Refrigeración</h3>
+          <p>Piezas para mantener la temperatura de operación correcta.</p>
+          <ul><li>Radiadores</li><li>Bombas de agua</li><li>Termostatos</li><li>Mangueras</li></ul>
+        </article>
+
+        <article class="part-card">
+          <span class="code">REF. LUB‑07</span>
+          <h3>Lubricantes y fluidos</h3>
+          <p>Aceites y fluidos para mantenimiento periódico.</p>
+          <ul><li>Aceite de motor</li><li>Líquido refrigerante</li><li>Líquido de transmisión</li><li>Aditivos</li></ul>
+        </article>
+
+        <article class="part-card">
+          <span class="code">REF. CAR‑08</span>
+          <h3>Carrocería y ópticos</h3>
+          <p>Piezas exteriores y de visibilidad.</p>
+          <ul><li>Espejos laterales</li><li>Parachoques</li><li>Ópticos delanteros/traseros</li><li>Manillas</li></ul>
+        </article>
+
+        <article class="part-card">
+          <span class="code">REF. ACC‑09</span>
+          <h3>Accesorios y confort</h3>
+          <p>Complementos para uso diario del vehículo.</p>
+          <ul><li>Pisos y tapices</li><li>Portaequipajes</li><li>Fundas y organizadores</li><li>Iluminación interior</li></ul>
+        </article>
+
+      </div>
+      <p class="catalog-note">¿No encuentras tu pieza en el listado? Escríbenos la marca, modelo, año y motorización de tu vehículo por <a href="#contacto" style="color:var(--signal);font-weight:600;">el formulario de contacto</a> y te confirmamos disponibilidad y precio antes de cualquier compra.</p>
+    </div>
+  </section>
+
+  <!-- NOSOTROS -->
+  <section id="nosotros" class="bg-alt">
+    <div class="wrap">
+      <div class="about-grid">
+        <div>
+          <p class="eyebrow">Nosotros</p>
+          <h2>Repuestos claros, sin letra chica.</h2>
+          <p>AutoExpress es un proveedor chileno de repuestos y accesorios para vehículos. Trabajamos con un catálogo ordenado por categorías y códigos de referencia, para que cotizar sea rápido y la pieza que recibes sea la que realmente necesitas.</p>
+          <p>No vendemos motores completos: nos enfocamos en piezas, componentes y accesorios de recambio, con información clara sobre compatibilidad, disponibilidad y garantía antes de confirmar cualquier pedido.</p>
+          <ul class="value-list">
+            <li><span class="num">01</span><span>Cotización sin compromiso, sin pago en línea.</span></li>
+            <li><span class="num">02</span><span>Información de compatibilidad verificada antes de despachar.</span></li>
+            <li><span class="num">03</span><span>Garantía y condiciones informadas por escrito en cada cotización.</span></li>
+          </ul>
+        </div>
+        <div class="stat-plate">
+          <div class="row">
+            <div><b>+<span class="placeholder-inline">12</span></b><span>Años en el rubro</span></div>
+            <div><b><span class="placeholder-inline">8.500</span></b><span>Pedidos despachados</span></div>
+          </div>
+          <div class="row">
+            <div><b>9</b><span>Categorías de catálogo</span></div>
+            <div><b><span class="placeholder-inline">2</span></b><span>Sucursales / puntos de retiro</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Contacto</p>
+        <h2>Cotiza tu repuesto</h2>
+        <p>Completa el formulario o contáctanos directamente. Respondemos con disponibilidad, precio y forma de despacho o retiro — la compra se coordina siempre por estos canales, no hay pago en línea en este sitio.</p>
+      </div>
+      <div class="contact-grid">
+
+        <div class="info-card">
+          <h3>Datos de contacto</h3>
+          <div class="info-row"><span class="k">Razón social</span><span class="v placeholder">AutoExpress Repuestos SpA</span></div>
+          <div class="info-row"><span class="k">RUT</span><span class="v placeholder">77.123.456-8</span></div>
+          <div class="info-row"><span class="k">Dirección</span><span class="v placeholder">Av. Alessandri 2450, Quilpué, Región de Valparaíso</span></div>
+          <div class="info-row"><span class="k">Teléfono</span><span class="v placeholder">+56 9 8765 4321</span></div>
+          <div class="info-row"><span class="k">Email</span><span class="v placeholder">contacto@autoexpress.cl</span></div>
+          <div class="info-row"><span class="k">Horario</span>
+            <span class="v">
+              <table class="hours-table">
+                <tr><td>Lunes a viernes</td><td>09:30 – 18:30</td></tr>
+                <tr><td>Sábado</td><td>10:00 – 14:00</td></tr>
+                <tr><td>Domingo y festivos</td><td>Cerrado</td></tr>
+              </table>
+            </span>
+          </div>
+          <a href="https://wa.me/56900000000" target="_blank" rel="noopener" class="btn btn-signal" style="width:100%;justify-content:center;margin-top:6px;">Escribir por WhatsApp</a>
+        </div>
+
+        <form class="contact-form" id="contactForm">
+          <h3>Formulario de cotización</h3>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="nombre">Nombre completo</label>
+              <input type="text" id="nombre" name="nombre" required autocomplete="name">
+            </div>
+            <div class="form-field">
+              <label for="telefono">Teléfono</label>
+              <input type="tel" id="telefono" name="telefono" required autocomplete="tel">
+            </div>
+            <div class="form-field">
+              <label for="email">Correo electrónico</label>
+              <input type="email" id="email" name="email" required autocomplete="email">
+            </div>
+            <div class="form-field">
+              <label for="vehiculo">Marca, modelo y año</label>
+              <input type="text" id="vehiculo" name="vehiculo" placeholder="Ej: Chevrolet Sail 2016" required>
+            </div>
+            <div class="form-field full">
+              <label for="categoria">Categoría de repuesto</label>
+              <select id="categoria" name="categoria" required>
+                <option value="">Selecciona una categoría</option>
+                <option>Frenos</option>
+                <option>Suspensión y dirección</option>
+                <option>Filtros</option>
+                <option>Correas y tensores</option>
+                <option>Sistema eléctrico</option>
+                <option>Refrigeración</option>
+                <option>Lubricantes y fluidos</option>
+                <option>Carrocería y ópticos</option>
+                <option>Accesorios y confort</option>
+                <option>Otra / no estoy seguro</option>
+              </select>
+            </div>
+            <div class="form-field full">
+              <label for="mensaje">Detalle de tu solicitud</label>
+              <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos qué pieza necesitas, síntoma de la falla o código de referencia si lo tienes." required></textarea>
+            </div>
+          </div>
+          <label class="consent">
+            <input type="checkbox" id="consentimiento" required>
+            <span>Autorizo a AutoExpress a contactarme y tratar mis datos según la <a href="#politicas" onclick="showPolicy('privacidad')" style="color:var(--signal);font-weight:600;">Política de Privacidad</a>.</span>
+          </label>
+          <button type="submit" class="btn btn-primary">Enviar solicitud</button>
+          <p class="form-note">Este formulario no procesa pagos. Al enviarlo se abrirá tu cliente de correo con los datos precargados hacia <span class="placeholder">contacto@autoexpress.cl</span>.</p>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- POLITICAS -->
+  <section id="politicas" class="bg-dark">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Políticas</p>
+        <h2>Transparencia antes de comprar</h2>
+        <p style="color:var(--steel-light);">Estas políticas describen cómo operamos, cómo tratamos tus datos y qué ocurre después de una compra. Reemplaza los campos marcados antes de publicar el sitio.</p>
+      </div>
+
+      <div class="policy-tabs" role="tablist" aria-label="Políticas del sitio">
+        <button class="policy-tab" role="tab" aria-selected="true" onclick="showPolicy('privacidad')" id="tab-privacidad">Privacidad</button>
+        <button class="policy-tab" role="tab" aria-selected="false" onclick="showPolicy('terminos')" id="tab-terminos">Términos y condiciones</button>
+        <button class="policy-tab" role="tab" aria-selected="false" onclick="showPolicy('despacho')" id="tab-despacho">Despacho y retiro</button>
+        <button class="policy-tab" role="tab" aria-selected="false" onclick="showPolicy('garantia')" id="tab-garantia">Garantía y devoluciones</button>
+        <button class="policy-tab" role="tab" aria-selected="false" onclick="showPolicy('cookies')" id="tab-cookies">Cookies</button>
+      </div>
+
+      <div class="policy-panel active" id="panel-privacidad" role="tabpanel" aria-labelledby="tab-privacidad">
+        <h3>Política de Privacidad</h3>
+        <p>En AutoExpress (<span class="placeholder">AutoExpress Repuestos SpA</span>, RUT <span class="placeholder">77.123.456-8</span>) recopilamos únicamente los datos que nos entregas voluntariamente a través del formulario de contacto: nombre, teléfono, correo electrónico y datos de tu vehículo.</p>
+        <h3>¿Para qué usamos tus datos?</h3>
+        <ul>
+          <li>Responder tu solicitud de cotización o disponibilidad de repuestos.</li>
+          <li>Coordinar despacho o retiro de un pedido ya confirmado.</li>
+          <li>Enviar comunicaciones comerciales solo si lo autorizas expresamente.</li>
+        </ul>
+        <h3>Publicidad y remarketing</h3>
+        <p>Este sitio puede usar herramientas de medición y publicidad como Google Ads y Google Analytics, que emplean cookies para entender el uso del sitio y mostrar anuncios relevantes. Puedes gestionar u optar por no recibir publicidad personalizada desde la configuración de anuncios de Google.</p>
+        <h3>Tus derechos</h3>
+        <p>De acuerdo con la Ley N.º 19.628 sobre Protección de la Vida Privada, puedes solicitar acceso, rectificación o eliminación de tus datos escribiendo a <span class="placeholder">contacto@autoexpress.cl</span>. No compartimos tus datos con terceros salvo para el despacho de tu pedido.</p>
+      </div>
+
+      <div class="policy-panel" id="panel-terminos" role="tabpanel" aria-labelledby="tab-terminos">
+        <h3>Términos y Condiciones</h3>
+        <p>El uso de este sitio implica la aceptación de estas condiciones. AutoExpress es un sitio de catálogo y contacto: la información de precios y disponibilidad es referencial y se confirma directamente con un asesor antes de cerrar cualquier venta.</p>
+        <h3>Sobre las ventas</h3>
+        <ul>
+          <li>Este sitio no procesa pagos en línea; todas las compras se coordinan por teléfono, correo o WhatsApp.</li>
+          <li>Los precios finales, formas de pago y plazos se confirman por escrito antes de despachar.</li>
+          <li>No comercializamos motores completos, solo repuestos, piezas y accesorios de recambio.</li>
+        </ul>
+        <h3>Propiedad intelectual</h3>
+        <p>Los textos, imágenes y elementos gráficos de este sitio pertenecen a AutoExpress o a sus proveedores y no pueden reproducirse sin autorización.</p>
+        <h3>Exactitud de la información</h3>
+        <p>Trabajamos para mantener el catálogo actualizado; sin embargo, la compatibilidad exacta de cada pieza siempre debe confirmarse con un asesor antes de la compra.</p>
+      </div>
+
+      <div class="policy-panel" id="panel-despacho" role="tabpanel" aria-labelledby="tab-despacho">
+        <h3>Despacho y retiro</h3>
+        <p>Una vez confirmado tu pedido por un asesor, puedes elegir entre las siguientes modalidades:</p>
+        <ul>
+          <li><strong>Retiro en tienda:</strong> en <span class="placeholder">Av. Alessandri 2450, Quilpué</span>, en el horario informado en la sección de contacto.</li>
+          <li><strong>Despacho a domicilio:</strong> a través de transporte propio o courier, con costo y plazo informado según comuna de destino.</li>
+          <li><strong>Envío a regiones:</strong> mediante empresa de encomiendas, con plazos estimados de <span class="placeholder">3 a 7 días hábiles</span>.</li>
+        </ul>
+        <p>Los tiempos de despacho son estimados y pueden variar según disponibilidad del proveedor y la localidad de destino.</p>
+      </div>
+
+      <div class="policy-panel" id="panel-garantia" role="tabpanel" aria-labelledby="tab-garantia">
+        <h3>Garantía y devoluciones</h3>
+        <p>Todos los repuestos vendidos cuentan con la garantía legal establecida por la Ley N.º 19.496 sobre Protección de los Derechos de los Consumidores, además de la garantía adicional que informemos por escrito en tu cotización.</p>
+        <h3>Cambios y devoluciones</h3>
+        <ul>
+          <li>Puedes solicitar cambio o devolución dentro de <span class="placeholder">10 días</span> corridos desde la entrega, con el producto sin uso y su empaque original.</li>
+          <li>Piezas eléctricas o instaladas se evalúan caso a caso según norma del fabricante.</li>
+          <li>Para iniciar un reclamo o devolución, escribe a <span class="placeholder">contacto@autoexpress.cl</span> indicando tu número de pedido.</li>
+        </ul>
+        <p>Puedes revisar tus derechos como consumidor en el sitio oficial del SERNAC.</p>
+      </div>
+
+      <div class="policy-panel" id="panel-cookies" role="tabpanel" aria-labelledby="tab-cookies">
+        <h3>Política de Cookies</h3>
+        <p>Este sitio puede utilizar cookies propias y de terceros (como Google Ads y Google Analytics) para recordar tus preferencias, medir el tráfico y mostrar anuncios relevantes en otros sitios.</p>
+        <h3>Tipos de cookies</h3>
+        <ul>
+          <li><strong>Necesarias:</strong> permiten el funcionamiento básico del sitio.</li>
+          <li><strong>Analíticas:</strong> nos ayudan a entender cómo se usa el catálogo para mejorarlo.</li>
+          <li><strong>Publicitarias:</strong> permiten mostrar anuncios relevantes de AutoExpress en otros sitios web.</li>
+        </ul>
+        <p>Puedes bloquear o eliminar las cookies desde la configuración de tu navegador en cualquier momento, aunque esto podría afectar algunas funciones del sitio.</p>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <svg class="logo-mark" viewBox="0 0 100 100" aria-hidden="true" style="width:28px;height:28px;">
+            <path d="M18 58 L34 42 L44 42 L44 30 L56 30 L56 42 L66 42 L82 58 L82 74 L18 74 Z" fill="#F2B705"/>
+            <circle cx="34" cy="74" r="8" fill="#1C1E22" stroke="#F2B705" stroke-width="3"/>
+            <circle cx="66" cy="74" r="8" fill="#1C1E22" stroke="#F2B705" stroke-width="3"/>
+          </svg>
+          <span class="logo-text">AutoExpress</span>
+        </div>
+        <p class="legal-blurb">Repuestos, piezas y accesorios para vehículos en Chile. Catálogo y cotización directa, sin ventas de motores completos ni pagos en línea en este sitio.</p>
+      </div>
+      <div>
+        <h4>Catálogo</h4>
+        <ul>
+          <li><a href="#catalogo">Frenos</a></li>
+          <li><a href="#catalogo">Suspensión y dirección</a></li>
+          <li><a href="#catalogo">Sistema eléctrico</a></li>
+          <li><a href="#catalogo">Ver todo</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+          <li><a href="https://wa.me/56987654321" target="_blank" rel="noopener">WhatsApp</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#politicas" onclick="showPolicy('privacidad')">Privacidad</a></li>
+          <li><a href="#politicas" onclick="showPolicy('terminos')">Términos y condiciones</a></li>
+          <li><a href="#politicas" onclick="showPolicy('despacho')">Despacho y retiro</a></li>
+          <li><a href="#politicas" onclick="showPolicy('garantia')">Garantía y devoluciones</a></li>
+          <li><a href="#politicas" onclick="showPolicy('cookies')">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="hazard-bar thin"></div>
+  <div class="wrap footer-bottom">
+    <span>© <span id="year"></span> <span class="placeholder">AutoExpress Repuestos SpA</span> — RUT <span class="placeholder">77.123.456-8</span>. Todos los derechos reservados.</span>
+    <span><span class="placeholder">Quilpué, Región de Valparaíso</span> · Chile</span>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const mainNav = document.getElementById('mainNav');
+  navToggle.addEventListener('click', () => {
+    const isOpen = mainNav.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+  });
+  mainNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mainNav.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }));
+
+  // Policy tabs
+  function showPolicy(key){
+    document.querySelectorAll('.policy-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.policy-tab').forEach(t => t.setAttribute('aria-selected', 'false'));
+    const panel = document.getElementById('panel-' + key);
+    const tab = document.getElementById('tab-' + key);
+    if(panel) panel.classList.add('active');
+    if(tab) tab.setAttribute('aria-selected', 'true');
+  }
+
+  // Contact form -> mailto (no backend, no online payment)
+  document.getElementById('contactForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const f = e.target;
+    const asunto = encodeURIComponent('Cotización de repuesto — ' + f.vehiculo.value);
+    const cuerpo = encodeURIComponent(
+      'Nombre: ' + f.nombre.value + '\n' +
+      'Teléfono: ' + f.telefono.value + '\n' +
+      'Correo: ' + f.email.value + '\n' +
+      'Vehículo: ' + f.vehiculo.value + '\n' +
+      'Categoría: ' + f.categoria.value + '\n\n' +
+      'Detalle:\n' + f.mensaje.value
+    );
+    window.location.href = 'mailto:contacto@autoexpress.cl?subject=' + asunto + '&body=' + cuerpo;
+  });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
